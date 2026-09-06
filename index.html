@@ -766,9 +766,28 @@ const shareBtn = document.getElementById("shareBtn");
     letterScreen.style.display = "none";
     qrScreen.style.display = "none";
 
-    /* Directly show recipient choice */
-    choiceScreen.style.display = "block";
-  }
+    /* /* Recipient starts with QR screen */
+qrScreen.style.display = "block";
+
+/* Show the same QR for the recipient */
+document.getElementById("qrcode").innerHTML = "";
+
+new QRCode(document.getElementById("qrcode"), {
+  text: window.location.href,
+  width: 204,
+  height: 204,
+  colorDark: "#000000",
+  colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+/* QR screen → Choice automatically */
+setTimeout(function () {
+
+  qrScreen.style.display = "none";
+  choiceScreen.style.display = "block";
+
+}, 3000);
 
 
   /* =========================================
