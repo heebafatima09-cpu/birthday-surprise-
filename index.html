@@ -684,6 +684,17 @@ margin-top: 25px;
   <div id="giftBox" class="gift-box">🎁</div>
 </div>
 
+  <button id="shareBtn" style="
+  margin-top: 25px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+">
+  🔗 Share Surprise
+  </button>
+  
 <!-- TEDDY GIFT PAGE -->
 <div id="gift1Screen" class="screen" style="display:none;"> 
 
@@ -727,7 +738,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const noBtn = document.getElementById("noBtn");
   const envelope = document.getElementById("envelope");
   const giftBox = document.getElementById("giftBox");
-
+const shareBtn = document.getElementById("shareBtn");
+  
   /* =========================================
      RECIPIENT MODE
      ========================================= */
@@ -1026,7 +1038,66 @@ document.addEventListener("DOMContentLoaded", function () {
     gift1Screen.style.display = "block";
 
   });
+  
+/* =========================================
+   SHARE RECIPIENT LINK
+   ========================================= */
 
+shareBtn.addEventListener("click", async function () {
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const date =
+    document.getElementById("date").value;
+
+  const letter =
+    document.getElementById("letterText").value.trim();
+
+  const recipientURL =
+    window.location.origin +
+    window.location.pathname +
+    "?mode=recipient" +
+    "&name=" + encodeURIComponent(name) +
+    "&date=" + encodeURIComponent(date) +
+    "&letter=" + encodeURIComponent(letter);
+
+  if (navigator.share) {
+
+    try {
+
+      await navigator.share({
+        title: "Birthday Surprise 🎂",
+        text: "I made a special surprise for you 💗",
+        url: recipientURL
+      });
+
+    } catch (error) {
+
+      console.log("Share cancelled");
+
+    }
+
+  } else {
+
+    try {
+
+      await navigator.clipboard.writeText(recipientURL);
+
+      alert("Recipient link copied! 💗");
+
+    } catch (error) {
+
+      prompt(
+        "Copy this Recipient link:",
+        recipientURL
+      );
+
+    }
+
+  }
+
+});
 });
 </script>
 
